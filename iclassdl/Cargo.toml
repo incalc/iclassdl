@@ -1,0 +1,16 @@
+[package]
+name = "iclassdl"
+version = "0.1.0"
+authors = ["Seungjae Park <astro.psj@gmail.com>"]
+edition = "2018"
+description = "Inha Univ. I-Class Course Video Downloader"
+documentation = "https://docs.rs/iclassdl"
+readme = "README.md"
+repository = "https://github.com/incalc/iclassdl"
+license = "GPL-3.0"
+
+[dependencies]
+ffmpeg-next = "4.3.6"
+
+[profile.release]
+lto = true
