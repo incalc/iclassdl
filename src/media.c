@@ -67,22 +67,22 @@ int remux(char const *infile, char const *outfile) {
     assert(infile != NULL);
     assert(outfile != NULL);
 
+    AVFormatContext *in_fmt_ctx = NULL, *out_fmt_ctx = NULL;
+    int *streams = NULL;
+
     int errnum;
 
-    AVFormatContext *in_fmt_ctx = NULL;
     if ((errnum = open_media_input(&in_fmt_ctx, infile)) < 0) {
         goto finally;
     }
 
-    AVFormatContext *out_fmt_ctx = NULL;
     if ((errnum = open_media_output(&out_fmt_ctx, outfile)) < 0) {
         goto finally;
     }
 
     unsigned int const stream_count = in_fmt_ctx->nb_streams;
 
-    int *streams = av_mallocz_array(stream_count, sizeof(*streams));
-    if (streams == NULL) {
+    if ((streams = av_mallocz_array(stream_count, sizeof(*streams))) == NULL) {
         errnum = AVERROR(ENOMEM);
         goto finally;
     }
@@ -151,10 +151,9 @@ finally:
     avformat_close_input(&in_fmt_ctx);
     avformat_free_context(in_fmt_ctx);
 
-    if (out_fmt_ctx && !(out_fmt_ctx->oformat->flags & AVFMT_NOFILE)) {
+    if (out_fmt_ctx != NULL && !(out_fmt_ctx->oformat->flags & AVFMT_NOFILE)) {
         avio_closep(&out_fmt_ctx->pb);
     }
-
     avformat_free_context(out_fmt_ctx);
 
     av_freep(&streams);
