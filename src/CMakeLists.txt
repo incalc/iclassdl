@@ -1,3 +1,3 @@
 add_executable(${PROJECT_NAME}
         main.cpp
-        video.c)
+        media.c)

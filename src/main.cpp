@@ -1,7 +1,7 @@
 #include <iostream>
 
 extern "C" {
-#include <iclassdl/video.h>
+#include <iclassdl/media.h>
 }
 
 int main(int argc, char **argv) {
@@ -17,6 +17,8 @@ int main(int argc, char **argv) {
     char const *infile = argv[1];
     char const *outfile = argv[2];
 
-    remux(infile, outfile);
+    if (remux(infile, outfile) != MEDIA_REMUX_SUCCESS) {
+        std::cerr << "Fail to download and remux media\n";
+    }
     return 0;
 }
