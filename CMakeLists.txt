@@ -21,6 +21,10 @@ endif ()
 include_directories(include)
 add_subdirectory(src)
 
+# Boost
+find_package(Boost 1.69 REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
 # FFmpeg
 find_path(AVCODEC_INCLUDE_DIR libavcodec/avcodec.h)
 find_library(AVCODEC_LIBRARY avcodec)
@@ -34,3 +38,6 @@ find_library(AVUTIL_LIBRARY avutil)
 target_include_directories(${PROJECT_NAME} PRIVATE ${AVCODEC_INCLUDE_DIR} ${AVFORMAT_INCLUDE_DIR} ${AVUTIL_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY})
 
+# OpenSSL
+find_package(OpenSSL REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenSSL::SSL)
