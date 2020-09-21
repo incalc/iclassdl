@@ -9,7 +9,7 @@ namespace iclassdl::session {
     class LoginFailException : public std::exception {
     public:
         explicit LoginFailException(char const *message);
-        char const *what() const noexcept override;
+        [[nodiscard]] char const *what() const noexcept override;
 
     private:
         char const *message;

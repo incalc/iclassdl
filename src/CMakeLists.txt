@@ -1,4 +1,5 @@
 add_executable(${PROJECT_NAME}
         main.cpp
-        session.cpp
-        media.c)
+        media_impl.c
+        media.cpp
+        session.cpp)

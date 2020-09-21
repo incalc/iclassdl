@@ -1,14 +1,21 @@
 #ifndef ICLASSDL_MEDIA_H
 #define ICLASSDL_MEDIA_H
 
-#include <libavformat/avformat.h>
+#include <exception>
+#include <string_view>
 
-#define MEDIA_REMUX_SUCCESS 0
-#define MEDIA_REMUX_FAILURE 1
+namespace iclassdl::media {
+    class FFmpegException final : public std::exception {
+    public:
+        explicit FFmpegException(int errnum);
+        ~FFmpegException() final;
+        [[nodiscard]] char const *what() const noexcept override;
 
-int open_media_input(AVFormatContext **fmt_ctx, char const *filename);
-int open_media_output(AVFormatContext **fmt_ctx, char const *filename);
-int prepare_copy(AVStream **out_stream, AVFormatContext *fmt_ctx, AVCodecParameters const *codecpar);
-int remux(char const *infile, char const *outfile);
+    private:
+        char *message{};
+    };
+
+    void download(std::string_view url, std::string_view filename) noexcept(false);
+} // namespace iclassdl::media
 
 #endif // ICLASSDL_MEDIA_H

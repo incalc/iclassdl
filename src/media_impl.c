@@ -1,8 +1,7 @@
-#include <iclassdl/media.h>
+#include <iclassdl/media_impl.h>
 
 #include <assert.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -159,9 +158,7 @@ finally:
     av_freep(&streams);
 
     if (errnum < 0 && errnum != AVERROR_EOF) {
-        fprintf(stderr, "Error: %s\n", av_err2str(errnum));
-        return MEDIA_REMUX_FAILURE;
+        return errnum;
     }
-
-    return MEDIA_REMUX_SUCCESS;
+    return 0;
 }
