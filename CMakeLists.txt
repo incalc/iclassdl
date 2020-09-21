@@ -22,8 +22,9 @@ include_directories(include)
 add_subdirectory(src)
 
 # Boost
-find_package(Boost 1.69 REQUIRED)
+find_package(Boost 1.69 REQUIRED COMPONENTS system thread)
 include_directories(${Boost_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
 
 # FFmpeg
 find_path(AVCODEC_INCLUDE_DIR libavcodec/avcodec.h)
