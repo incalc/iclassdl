@@ -23,5 +23,6 @@ jobs:
           sudo apt-get install libavcodec-dev libavformat-dev libavformat-dev
       - name: Run CMake
         run: |
-          cmake -S . -B build -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include -DBoost_LIBRARIES=$BOOST_ROOT_1_72_0/lib
+          echo "::set-env name=BOOST_ROOT::$BOOST_ROOT_1_72_0"
+          cmake -S . -B build -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
           cmake --build build -j 2
