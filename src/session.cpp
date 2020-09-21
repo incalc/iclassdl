@@ -18,6 +18,13 @@ namespace asio = boost::asio;
 namespace beast = boost::beast;
 
 namespace iclassdl::session {
+    LoginFailException::LoginFailException(char const *message)
+    : message(message) {}
+
+    char const *LoginFailException::what() const noexcept {
+        return message;
+    }
+
     std::string login(std::string_view sid, std::string_view password) noexcept(false) {
         std::string session_id;
 

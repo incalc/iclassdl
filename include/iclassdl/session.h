@@ -7,10 +7,15 @@
 
 namespace iclassdl::session {
     class LoginFailException : public std::exception {
-        using std::exception::exception;
+    public:
+        explicit LoginFailException(char const *message);
+        char const *what() const noexcept override;
+
+    private:
+        char const *message;
     };
 
-    std::string login(std::string_view sid, std::string_view password);
+    std::string login(std::string_view sid, std::string_view password) noexcept(false);
 } // namespace iclassdl::session
 
 #endif // ICLASSDL_SESSION_H
