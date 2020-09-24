@@ -4,8 +4,10 @@
 #include <exception>
 #include <string_view>
 
+#include <iclassdl/export.h>
+
 namespace iclassdl::media {
-    class FFmpegException final : public std::exception {
+    class ICLASSDL_EXPORT FFmpegException final : public std::exception {
     public:
         explicit FFmpegException(int errnum);
         ~FFmpegException() final;
@@ -15,7 +17,7 @@ namespace iclassdl::media {
         char *message{};
     };
 
-    void download(std::string_view url, std::string_view filename) noexcept(false);
+    void ICLASSDL_EXPORT download(std::string_view url, std::string_view filename) noexcept(false);
 } // namespace iclassdl::media
 
 #endif // ICLASSDL_MEDIA_H

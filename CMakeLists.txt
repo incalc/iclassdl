@@ -14,7 +14,6 @@ else ()
     add_compile_options(-Wall -Wextra -pedantic)
 endif ()
 
-include_directories(include)
 add_subdirectory(src)
 
 # Boost
@@ -47,9 +46,12 @@ set(INSTALL_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 set(INSTALL_CONFIG_FILE ${PROJECT_NAME}-config.cmake)
 set(INSTALL_CONFIG_VERSION_FILE ${PROJECT_NAME}-config-version.cmake)
 
+target_include_directories(${PROJECT_NAME}
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include> $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>)
+
 include(GenerateExportHeader)
-generate_export_header(${PROJECT_NAME})
-target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>)
+generate_export_header(${PROJECT_NAME}
+        EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/export.h)
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/${INSTALL_CONFIG_FILE}.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/${INSTALL_CONFIG_FILE}
@@ -57,8 +59,10 @@ configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/${INSTALL_CONFIG_F
 write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/cmake/${INSTALL_CONFIG_VERSION_FILE}
         COMPATIBILITY SameMajorVersion)
 
+install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(TARGETS ${PROJECT_NAME}
         EXPORT ${TARGET_EXPORT_NAME}
@@ -71,8 +75,12 @@ install(EXPORT ${TARGET_EXPORT_NAME}
         NAMESPACE ${PROJECT_NAME}::
         FILE ${TARGET_EXPORT_NAME}.cmake)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${INSTALL_CONFIG_FILE} ${CMAKE_CURRENT_BINARY_DIR}/${INSTALL_CONFIG_VERSION_FILE}
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/${INSTALL_CONFIG_FILE} ${CMAKE_CURRENT_BINARY_DIR}/cmake/${INSTALL_CONFIG_VERSION_FILE}
         DESTINATION ${INSTALL_CONFIG_DIR})
+
+export(EXPORT ${TARGET_EXPORT_NAME}
+        NAMESPACE ${PROJECT_NAME}::
+        FILE ${CMAKE_BINARY_DIR}/cmake/${TARGET_EXPORT_NAME}.cmake)
 
 # Iclassdl Executable
 target_link_libraries(${PROJECT_NAME}_cli PRIVATE ${PROJECT_NAME}::${PROJECT_NAME})
