@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+if(NOT TARGET iclassdl::iclassdl)
+    include(${CMAKE_CURRENT_LIST_DIR}/iclassdl-targets.cmake)
+endif()
