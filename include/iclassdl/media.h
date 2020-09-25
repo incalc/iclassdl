@@ -9,7 +9,7 @@
 namespace iclassdl::media {
     class ICLASSDL_EXPORT FFmpegException final : public std::exception {
     public:
-        explicit FFmpegException(int errnum);
+        explicit FFmpegException(int errnum) noexcept;
         ~FFmpegException() final;
         [[nodiscard]] char const *what() const noexcept override;
 
@@ -17,7 +17,7 @@ namespace iclassdl::media {
         char *message{};
     };
 
-    void ICLASSDL_EXPORT download(std::string_view url, std::string_view filename) noexcept(false);
+    void ICLASSDL_EXPORT download(std::string_view url, std::string_view filename);
 } // namespace iclassdl::media
 
 #endif // ICLASSDL_MEDIA_H

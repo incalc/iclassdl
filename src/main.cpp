@@ -19,8 +19,8 @@ int main(int argc, char **argv) {
     char const *filename = argv[4];
 
     try {
-        auto session_id = iclassdl::session::login(sid, password);
-        std::cout << "session_id=" << session_id << '\n';
+        auto session = iclassdl::Session(sid, password);
+        std::cout << "session_id=" << session.get_session_id() << '\n';
 
         iclassdl::media::download(url, filename);
         std::cout << "Download finished." << std::endl;

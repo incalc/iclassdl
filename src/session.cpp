@@ -17,17 +17,16 @@
 namespace asio = boost::asio;
 namespace beast = boost::beast;
 
-namespace iclassdl::session {
-    LoginFailException::LoginFailException(char const *message)
-    : message(message) {}
+namespace iclassdl {
+    LoginException::LoginException(char const *message) noexcept
+    : exception(message) {}
 
-    char const *LoginFailException::what() const noexcept {
+    char const *LoginException::what() const noexcept {
         return message;
     }
 
-    std::string login(std::string_view sid, std::string_view password) noexcept(false) {
-        std::string session_id;
-
+    Session::Session(std::string_view sid, std::string_view password)
+    : sid(sid), password(password) {
         try {
             constexpr auto host = "learn.inha.ac.kr";
 
@@ -79,7 +78,7 @@ namespace iclassdl::session {
             if (cookie_header_count == 3 && match.size() == 2) {
                 session_id = match[1];
             } else {
-                throw LoginFailException("login: ID or password is incorrect");
+                throw LoginException("login: ID or password is incorrect");
             }
 
             beast::error_code ec;
@@ -93,9 +92,19 @@ namespace iclassdl::session {
                 throw beast::system_error{ ec };
             }
         } catch (std::exception const &e) {
-            throw LoginFailException(e.what());
+            throw LoginException(e.what());
         }
+    }
 
+    std::string const &Session::get_sid() const noexcept {
+        return sid;
+    }
+
+    std::string const &Session::get_password() const noexcept {
+        return password;
+    }
+
+    std::string const &Session::get_session_id() const noexcept {
         return session_id;
     }
-} // namespace iclassdl::session
+} // namespace iclassdl

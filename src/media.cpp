@@ -9,7 +9,7 @@ extern "C" {
 }
 
 namespace iclassdl::media {
-    FFmpegException::FFmpegException(int errnum) {
+    FFmpegException::FFmpegException(int errnum) noexcept {
         message = new char[64];
         av_strerror(errnum, message, 64);
     }
@@ -22,7 +22,7 @@ namespace iclassdl::media {
         return message;
     }
 
-    void download(std::string_view url, std::string_view filename) noexcept(false) {
+    void download(std::string_view url, std::string_view filename) {
         std::string const infile = std::string(url);
         std::string const outfile = std::string(filename);
 
