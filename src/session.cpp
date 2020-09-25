@@ -19,7 +19,7 @@ namespace beast = boost::beast;
 
 namespace iclassdl {
     LoginException::LoginException(char const *message) noexcept
-    : exception(message) {}
+    : message(message) {}
 
     char const *LoginException::what() const noexcept {
         return message;
