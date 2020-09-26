@@ -15,14 +15,17 @@ int main(int argc, char **argv) {
 
     char const *sid = argv[1];
     char const *password = argv[2];
-    char const *url = argv[3];
+    char const *viewer_url = argv[3];
     char const *filename = argv[4];
 
     try {
         auto session = iclassdl::Session(sid, password);
         std::cout << "session_id=" << session.get_session_id() << '\n';
 
-        iclassdl::media::download(url, filename);
+        auto resource_url = session.parse_video_viewer(viewer_url);
+        std::cout << "resource_url=" << resource_url << '\n';
+
+        iclassdl::media::download(resource_url, filename);
         std::cout << "Download finished." << std::endl;
     } catch (std::exception const &e) {
         std::cerr << e.what() << std::endl;
