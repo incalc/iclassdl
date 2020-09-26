@@ -88,3 +88,4 @@ export(EXPORT ${TARGET_EXPORT_NAME}
 # Iclassdl Executable
 target_link_libraries(${PROJECT_NAME}_cli PRIVATE ${PROJECT_NAME}::${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME}_cli PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME}_cli PRIVATE ${Boost_LIBRARIES})
