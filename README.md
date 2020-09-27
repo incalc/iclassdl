@@ -41,9 +41,9 @@ See [CHANGELOG](./CHANGELOG.md)
 
 ## Usage
 
-#### CLI
+### CLI
 
-> ./iclassdl [Student ID] [Iclass Password] [Video URL] [Filename]
+> ./iclassdl [Student ID] [I-class Password] [Video URL] [Filename]
 
 example:
 
