@@ -20,9 +20,8 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install libavcodec-dev libavformat-dev libavformat-dev
-      - name: Setup Boost environment variable
-        run: echo "::set-env name=BOOST_ROOT::$BOOST_ROOT_1_72_0"
+          sudo apt-get install libboost-dev libavcodec-dev libavformat-dev libavformat-dev
+
       - name: Run CMake
         run: |
           cmake -S . -B build
